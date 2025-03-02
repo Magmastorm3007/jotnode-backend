@@ -8,5 +8,9 @@ router.use(authMiddleware);
 
 router.post("/create-code", journalController.createCode);
 router.post("/join-code", journalController.joinCode);
+router.post("/post-message", journalController.postMessage);
+router.get("/get-messages/:code", journalController.getMessages);
+router.get("/user/journals", authMiddleware, journalController.getUserJournals);
 
 export default router;
+    

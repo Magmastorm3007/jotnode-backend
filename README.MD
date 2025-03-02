@@ -37,7 +37,7 @@ JotNote is an innovative journaling application that combines personal reflectio
 ## 📂 Project Structure
 ```
 jotnote/
-├── src/
+
 │   ├── controllers/
 │   │   ├── authController.ts
 │   │   └── journalController.ts

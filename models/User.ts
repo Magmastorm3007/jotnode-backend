@@ -5,6 +5,7 @@ export interface IUser extends Document {
   username: string;
   email: string;
   password: string;
+  journalCodes: mongoose.Types.ObjectId[]; // ✅ Add journalCodes array
   comparePassword(password: string): Promise<boolean>;
 }
 
@@ -23,6 +24,12 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
     type: String,
     required: true,
   },
+  journalCodes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "JournalCode", // ✅ Ensure this references the JournalCode model
+    },
+  ],
 });
 
 // Password hashing middleware
@@ -34,7 +41,7 @@ userSchema.pre<IUser>("save", async function (next) {
 
 // Method to compare passwords
 userSchema.methods.comparePassword = async function (
-  password: string,
+  password: string
 ): Promise<boolean> {
   return bcrypt.compare(password, this.password);
 };

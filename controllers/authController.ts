@@ -33,13 +33,32 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     // Check for error and return response accordingly
     if (error) {
       res.status(400).json({ message: error });
-      return; // Ensure we exit after sending the response
+      return; // Ensure we exuseNewUrlParser: true,
+      
     }
 
-    // Return the generated token if no error
+    // Return the generated token if no erroruseUnifiedTopology: true
     res.json({ token });
   } catch (error: unknown) {
     // Improve error handling
+    if (error instanceof Error) {
+      res.status(500).json({ message: error.message });
+    } else {
+      res.status(500).json({ message: 'Server error' });
+    }
+  }
+};
+
+export const signout = async (req: Request, res: Response): Promise<void> => {
+  try {
+    // Clear the token cookie. Adjust options if needed (e.g., secure, sameSite)
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
+    res.status(200).json({ message: "Sign out successful" });
+  } catch (error: unknown) {
     if (error instanceof Error) {
       res.status(500).json({ message: error.message });
     } else {
